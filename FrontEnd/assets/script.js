@@ -45,24 +45,21 @@ const listeFiltres = document.createElement("ul");
 filtres.appendChild(listeFiltres);
 
 
-// Création Filtre Tous
-const elementTous = document.createElement("li");
-const elementTousContent = document.createElement("p");
-elementTousContent.textContent = "Tous";
-listeFiltres.appendChild(elementTous);
-elementTous.appendChild(elementTousContent);
 
 
-// Création des autres Filtres depuis les catégories de l'api
-for (let i = 0; i < categories.length; i++){
-
+function createFiltre (nomFiltre){
     const elementFiltres = document.createElement("li");
-
     const elementFiltresContent = document.createElement("p");
-
-    elementFiltresContent.textContent = categories[i].name;
-
+    elementFiltresContent.textContent = nomFiltre;
     listeFiltres.appendChild(elementFiltres);
     elementFiltres.appendChild(elementFiltresContent);
 }
+
+// Création des Filtres
+createFiltre("Tous");
+for (let i = 0; i < categories.length; i++){
+    createFiltre(categories[i].name);
+}
+
+
 
