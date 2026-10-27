@@ -95,6 +95,11 @@ nav li {
 	font-size: 1.2em;
 }
 
+nav a {
+	color: inherit;
+	text-decoration: none;
+}
+
 li:hover {
 	color: #B1663C;
 }
@@ -137,34 +142,34 @@ li:hover {
 	width: 100%;
 
 }
-#contact {
+.form {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
-#contact > * {
+.form > * {
 	text-align: center;
 
 }
-#contact h2{
+.form h2{
 	margin-bottom: 20px;
 }
-#contact form {
+.form form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+.form input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+.form label {
 	margin: 2em 0 1em 0;
 }
-#contact textarea {
+.form textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
@@ -210,3 +215,24 @@ footer nav ul {
 	background-color: #1D6154;
 	color: white;
 }
+
+
+/* Page login.html */
+#mdp-reset{
+	color: #3D3D3D;
+}
+
+#login {
+	background-color: #FFFEF8;
+}
+
+#login .form {
+	text-align: center;
+	margin-bottom: 500px;
+}
+
+#nav-login {
+	font-weight: 700;
+}
+
+
