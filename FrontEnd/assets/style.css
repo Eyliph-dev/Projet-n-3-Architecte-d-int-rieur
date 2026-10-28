@@ -235,4 +235,8 @@ footer nav ul {
 	font-weight: 700;
 }
 
+#error {
+	padding-top: 1em;
+	color: #d91c1c;
+}
 
