@@ -128,7 +128,6 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
 }
 .gallery {
 	width: 100%;
@@ -239,4 +238,53 @@ footer nav ul {
 	padding-top: 1em;
 	color: #d91c1c;
 }
+
+/* Edit */
+
+.bandeau {
+	display: none;
+	justify-content: center;
+	background-color: black;
+	color: white;
+	font-size: 16px;
+	padding: 1em;
+	font-weight: 400;
+	gap: 10px;
+}
+
+.portfolio-title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+}
+
+.modifier {
+	gap: 10px;
+	display: none;
+	background: none;
+  	border: none;
+  	padding: 0;
+  	margin: 0;
+  	font: inherit;
+  	color: inherit;
+  	cursor: pointer;
+}
+
+.edit .bandeau {
+	display: flex;
+}
+
+.edit .portfolio-title{
+	margin-bottom: 92px;
+}
+
+.edit .modifier {
+	display: flex;
+}
+
+.edit .filtres {
+	display: none;
+}
+
 
