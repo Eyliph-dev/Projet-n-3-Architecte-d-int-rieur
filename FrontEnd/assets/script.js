@@ -25,6 +25,45 @@ function editPage (token) {
   }
 }
 
+// -------------- Modale ------------------
+
+const modale = document.getElementById("modale");
+const element1 = document.querySelector("#modale1")
+const element2 = document.querySelector("#modale2")
+
+// Affichage modale
+document.querySelector(".modifier").addEventListener("click", () => {
+  element1.classList.remove("hidden");
+  element2.classList.add("hidden");
+  modale.showModal();
+});
+
+// Fermeture modale si click sur croix
+document.querySelector("#closeModale").addEventListener("click", () => {
+  modale.close();
+});
+
+// Fermeture modale si clic en dehors
+modale.addEventListener("click", event => {
+  if(event.target === modale){
+    modale.close();
+  }
+})
+
+// Passage de modale 1 à 2
+const addPhoto = document.querySelector("#ajout-photo");
+addPhoto.addEventListener("click", () => {
+  element1.classList.add("hidden");
+  element2.classList.remove("hidden");
+});
+
+// Passage de modale 2 à 1
+const modaleReturn = document.querySelector("#retour-arriere");
+modaleReturn.addEventListener("click", () => {
+  element1.classList.remove("hidden");
+  element2.classList.add("hidden");
+});
+
 // Récupération des projets depuis l'api
 const responseWorks = await fetch("http://localhost:5678/api/works");
 const works = await responseWorks.json();

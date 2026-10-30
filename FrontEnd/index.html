@@ -117,6 +117,37 @@
 		</ul>
 	</nav>
 </footer>
+<dialog id="modale">
+	<div class="modale-container">
+		<button id="closeModale" aria-label="Fermer la modale">
+			<i class="fa-solid fa-xmark"></i>
+		</button>
+		<div id="modale1">
+			<h2>Galerie photo</h2>
+			<div class="modale-gallery"></div>
+			<button id="ajout-photo">Ajouter une photo</button>
+		</div>
+		<div id="modale2" class="hidden">
+			<button id="retour-arriere" aria-label="Retour en arrière">
+				<i class="fa-solid fa-arrow-left"></i>
+			</button>
+			<form action="#" method="post">
+				<label for="photo">Photos</label>
+				<input type="file" id="photo" name="photo" accept="image/*">
+				<label for="titre">Titre</label>
+				<input type="text" id="titre" name="titre">
+				<label for="categorie">Catégorie</label>
+				<select id="categorie" name="categorie">
+					<option value="">-- Choisir --</option>
+  					<option value="1">Objets</option>
+  					<option value="2">Appartements</option>
+  					<option value="3">Hôtels & restaurants</option>
+				</select>
+				<button>Valider</button>
+			</form>
+		</div>
+	</div>
+</dialog>
 <script type="module" src="assets/script.js"></script>
 </body>
 </html>

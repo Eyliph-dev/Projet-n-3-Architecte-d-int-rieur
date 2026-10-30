@@ -287,4 +287,15 @@ footer nav ul {
 	display: none;
 }
 
+/* Modale */
+.hidden {
+	display: none;
+}
 
+#modale {
+	padding: 0;
+}
+
+.modale-container {
+	padding: 14px;
+}
