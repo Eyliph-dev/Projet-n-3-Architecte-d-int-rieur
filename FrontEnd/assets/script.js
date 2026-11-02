@@ -39,8 +39,10 @@ document.querySelector(".modifier").addEventListener("click", () => {
 });
 
 // Fermeture modale si click sur croix
-document.querySelector("#closeModale").addEventListener("click", () => {
-  modale.close();
+document.querySelectorAll(".closeModale").forEach(button => {
+  button.addEventListener("click", () => {
+    modale.close();
+  });
 });
 
 // Fermeture modale si clic en dehors

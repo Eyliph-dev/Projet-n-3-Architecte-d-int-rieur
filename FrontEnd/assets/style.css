@@ -294,8 +294,116 @@ footer nav ul {
 
 #modale {
 	padding: 0;
+	width: 25%;
+	border-radius: 10px;
+	border-color: white;
+
 }
 
 .modale-container {
-	padding: 14px;
+	padding: 26px 30px;
+}
+
+.top-modale {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+#modale .form {
+	width: 100%;
+}
+
+#retour-arriere, .closeModale {
+	background: none;
+  	border: none;
+	font-size: 24px;
+	cursor: pointer;
+}
+
+#modale h2 {
+	font-size: 26px;
+	font-family: 'Work Sans';
+	color: black;
+	font-weight: 400;
+	margin-top: 16px;
+}
+
+/* Modale 2 */
+#modale2 form {
+	width: 75%;
+	margin: 30px auto;
+}
+
+.ajout-photo-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #E8F1F6;
+	padding: 13px 0 19px 0;
+	border-radius: 3px;
+}
+
+.ajout-photo-form .fa-image {
+	color: #B9C5CC;
+	font-size: 76px;
+}
+
+#modale2 .ajout-photo-form label {
+	border-radius: 50px;
+	padding: 10px 33px;
+	background-color: #CBD6DC;
+	color: #306685;
+	font-size: 14px;
+	margin: 6px 0 7px 0;
+	cursor: pointer;
+}
+
+.ajout-photo-form input:focus-visible + label{
+	outline: 2px solid black;
+}
+.ajout-photo-form span {
+	font-size: 10px;
+	color: #444444;
+}
+
+
+#modale2 select {
+	height: 51px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	margin-bottom: 47px;
+}
+
+.form-footer {
+	padding-top: 32px;
+	border-top: 1px solid #B3B3B3;
+}
+
+#modale2 .form-footer button {
+	display: block;
+	margin: auto;
+	padding: 10px 0;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 14px;
+	color: white;
+	background-color: #A7A7A7;
+	width: 50%;
+	border-radius: 60px ;
+	border: none;
+	cursor: pointer;
+}
+
+.sr-only {
+	border: 0 !important;
+	clip: rect(1px, 1px, 1px, 1px) !important;
+	-webkit-clip-path: inset(50%) !important;
+			clip-path: inset(50%) !important;
+	height: 1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	width: 1px !important;
+	white-space: nowrap !important;
 }
