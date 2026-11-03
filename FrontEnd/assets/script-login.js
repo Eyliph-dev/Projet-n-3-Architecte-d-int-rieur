@@ -16,7 +16,7 @@ submitForm.addEventListener("submit", (event) => {
 
 // Vérification de l'email et mdp de l'utilisateur
 async function login(chargeUtile) {
-  const errorMsg = document.getElementById("error");
+  const errorMsg = document.getElementById("log-error");
   errorMsg.textContent = "";
   const response = await fetch("http://localhost:5678/api/users/login", {
     method: "POST",

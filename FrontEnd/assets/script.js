@@ -1,6 +1,6 @@
 // Récupération des projets depuis l'api
 const responseWorks = await fetch("http://localhost:5678/api/works");
-const works = await responseWorks.json();
+let works = await responseWorks.json();
 
 // Récupération des catégories depuis l'api
 const responseCategories = await fetch("http://localhost:5678/api/categories");
@@ -68,7 +68,7 @@ function displayGalleryModale(works) {
     // Récupération de l'id du projet à supprimer lors du click sur le bouton de suppression
     supElement.addEventListener("click", () => {
       const id = works[i].id;
-      console.log("ID du projet à supprimer :", id);
+      supProjet(id);
     });
 
     // Ajout des éléments dans le html
@@ -120,6 +120,35 @@ modaleReturn.addEventListener("click", () => {
   element2.classList.add("hidden");
 });
 
+// Fonction permettant de supprimer un projet de l'api
+async function supProjet(id) {
+  const supErrorMsg = document.getElementById("sup-error");
+  supErrorMsg.textContent = "";
+  const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce projet ?");
+  if (!confirmation) {
+    return;
+  }
+  try {
+    const tokenActuel = sessionStorage.getItem("token");
+    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+      method: "DELETE",
+      headers: { "Authorization": `Bearer ${tokenActuel}` },
+    });
+    if (response.ok) {
+      // Mettre à jour la liste des projets après la suppression
+     works = works.filter(work => work.id !== id);
+     displayProjets(works);
+     displayGalleryModale(works);
+    } else if (response.status === 401) {
+      supErrorMsg.textContent = "Session expirée, veuillez vous reconnecter";
+    } else {
+      supErrorMsg.textContent = "Une erreur est survenue lors de la suppression du projet";
+    }
+  } catch (error) {
+  console.error("Erreur lors de la suppression du projet :", error);
+  supErrorMsg.textContent = "Une erreur est survenue, veuillez réessayer plus tard";
+  }
+}
 
 // --------------------- Affichage des projets et filtres ------------------
 

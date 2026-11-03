@@ -234,7 +234,7 @@ footer nav ul {
 	font-weight: 700;
 }
 
-#error {
+#log-error, #sup-error {
 	padding-top: 1em;
 	color: #d91c1c;
 }
@@ -395,6 +395,10 @@ footer nav ul {
 #modale1 .form-footer {
 	width: 75%;
 	margin: auto;
+}
+
+#sup-error {
+	text-align: center;
 }
 
 /* Modale 2 */
