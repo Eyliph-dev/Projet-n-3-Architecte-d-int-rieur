@@ -1,3 +1,11 @@
+// Récupération des projets depuis l'api
+const responseWorks = await fetch("http://localhost:5678/api/works");
+const works = await responseWorks.json();
+
+// Récupération des catégories depuis l'api
+const responseCategories = await fetch("http://localhost:5678/api/categories");
+const categories = await responseCategories.json();
+
 // ----------- Mode édition --------------
 
 // Récupération du token
@@ -27,6 +35,32 @@ function editPage (token) {
 
 // -------------- Modale ------------------
 
+// Récupération de la liste des catégories pour le select dans la modale
+const categorieModale = document.querySelector("#categorie");
+
+for (let i = 0; i < categories.length; i++) {
+  const optionCategorie = document.createElement("option");
+  optionCategorie.value = categories[i].id;
+  optionCategorie.textContent = categories[i].name;
+  categorieModale.appendChild(optionCategorie);
+}
+
+// Affiachage des projets dans la modale
+const galleryModale = document.querySelector(".modale-gallery");
+galleryModale.innerHTML = "";
+
+for (let i = 0; i < works.length; i++) {
+  const figure = document.createElement("figure");
+
+  const imgElement = document.createElement("img");
+  imgElement.src = works[i].imageUrl;
+  imgElement.alt = works[i].title;
+
+  galleryModale.appendChild(figure);
+  figure.appendChild(imgElement);
+}
+
+// Récupération des éléments de la modale dans le html
 const modale = document.getElementById("modale");
 const element1 = document.querySelector("#modale1")
 const element2 = document.querySelector("#modale2")
@@ -66,9 +100,8 @@ modaleReturn.addEventListener("click", () => {
   element2.classList.add("hidden");
 });
 
-// Récupération des projets depuis l'api
-const responseWorks = await fetch("http://localhost:5678/api/works");
-const works = await responseWorks.json();
+
+// --------------------- Affichage des projets et filtres ------------------
 
 // Fonction affichant les travaux
 function displayProjets(works) {
@@ -94,10 +127,6 @@ function displayProjets(works) {
 }
 
 displayProjets(works);
-
-// Récupération des catégories depuis l'api
-const responseCategories = await fetch("http://localhost:5678/api/categories");
-const categories = await responseCategories.json();
 
 // Création de la liste des Filtres dans le html
 const filtres = document.querySelector(".filtres");
