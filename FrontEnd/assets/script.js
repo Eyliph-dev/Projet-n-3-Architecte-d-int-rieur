@@ -15,8 +15,8 @@ const log = document.querySelector(".login");
 
 // Suppression du token lors du click sur "logout"
 log.addEventListener ("click", () => {
-    sessionStorage.removeItem("token");
-})
+  sessionStorage.removeItem("token");
+});
 
 editPage(token);
 
@@ -25,9 +25,9 @@ function editPage (token) {
   const edit = document.body;
 
   if (token !== null){
-      edit.classList.add("edit");
-      log.textContent = "logout";
-      log.setAttribute("href", "index.html");
+    edit.classList.add("edit");
+    log.textContent = "logout";
+    log.setAttribute("href", "index.html");
   } else {
     log.textContent = "login";
   }
@@ -45,25 +45,45 @@ for (let i = 0; i < categories.length; i++) {
   categorieModale.appendChild(optionCategorie);
 }
 
-// Affiachage des projets dans la modale
-const galleryModale = document.querySelector(".modale-gallery");
-galleryModale.innerHTML = "";
+// Affichage des projets dans la modale
+function displayGalleryModale(works) {
+  const galleryModale = document.querySelector(".modale-gallery");
+  // Vidage de la galerie modale avant d'ajouter les projets
+  galleryModale.innerHTML = "";
 
-for (let i = 0; i < works.length; i++) {
-  const figure = document.createElement("figure");
+  for (let i = 0; i < works.length; i++) {
+    // Création des éléments pour chaque projet
+    const figure = document.createElement("figure");
 
-  const imgElement = document.createElement("img");
-  imgElement.src = works[i].imageUrl;
-  imgElement.alt = works[i].title;
+    const imgElement = document.createElement("img");
+    imgElement.src = works[i].imageUrl;
+    imgElement.alt = works[i].title;
 
-  galleryModale.appendChild(figure);
-  figure.appendChild(imgElement);
+    // Création du bouton de suppression pour chaque projet
+    const supElement = document.createElement("button");
+    supElement.setAttribute("aria-label", `Supprimer le projet ${works[i].title}`);
+    const imgSupElement = document.createElement("i");
+    imgSupElement.classList.add("fa-solid", "fa-trash-can");
+    supElement.appendChild(imgSupElement);
+    // Récupération de l'id du projet à supprimer lors du click sur le bouton de suppression
+    supElement.addEventListener("click", () => {
+      const id = works[i].id;
+      console.log("ID du projet à supprimer :", id);
+    });
+
+    // Ajout des éléments dans le html
+    galleryModale.appendChild(figure);
+    figure.appendChild(imgElement);
+    figure.appendChild(supElement);
+  }
 }
+
+displayGalleryModale(works);
 
 // Récupération des éléments de la modale dans le html
 const modale = document.getElementById("modale");
-const element1 = document.querySelector("#modale1")
-const element2 = document.querySelector("#modale2")
+const element1 = document.querySelector("#modale1");
+const element2 = document.querySelector("#modale2");
 
 // Affichage modale
 document.querySelector(".modifier").addEventListener("click", () => {
@@ -84,7 +104,7 @@ modale.addEventListener("click", event => {
   if(event.target === modale){
     modale.close();
   }
-})
+});
 
 // Passage de modale 1 à 2
 const addPhoto = document.querySelector("#ajout-photo");
@@ -144,7 +164,7 @@ function createFiltre(nomFiltre, idFiltre) {
   if (idFiltre === 0) {
     filtresButton.classList.add("filtre-actuel");
   }
-
+  // Ajout d'un event listener sur les boutons filtres
   filtresButton.addEventListener("click", () => {
     if (idFiltre === 0) {
       displayProjets(works);
@@ -167,3 +187,4 @@ createFiltre("Tous", 0);
 for (let i = 0; i < categories.length; i++) {
   createFiltre(categories[i].name, categories[i].id);
 }
+
