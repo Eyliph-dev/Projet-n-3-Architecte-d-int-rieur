@@ -105,10 +105,9 @@ function displayGalleryModale(works) {
     const imgSupElement = document.createElement("i");
     imgSupElement.classList.add("fa-solid", "fa-trash-can");
     supElement.appendChild(imgSupElement);
-    // Récupération de l'id du projet à supprimer lors du click sur le bouton de suppression
+    // Appel de la fonction de suppression lors du clic
     supElement.addEventListener("click", () => {
-      const id = works[i].id;
-      supProjet(id);
+      supProjet(works[i].id, works[i].title);
     });
 
     // Ajout des éléments dans le html
@@ -121,11 +120,11 @@ function displayGalleryModale(works) {
 displayGalleryModale(works);
 
 // Fonction permettant de supprimer un projet de l'api
-async function supProjet(id) {
+async function supProjet(id, title) {
   const supErrorMsg = document.getElementById("sup-error");
   supErrorMsg.textContent = "";
   const confirmation = confirm(
-    "Êtes-vous sûr de vouloir supprimer ce projet ?",
+    `Êtes-vous sûr de vouloir supprimer le projet ${title} ?`,
   );
   if (!confirmation) {
     return;
@@ -177,12 +176,16 @@ fileInput.addEventListener("change", () => {
   image.classList.remove("hidden");
 });
 
-modale2Form.addEventListener("submit", (event) => {
+// Event sur le bouton Valider du formulaire de la modale2
+modale2Form.addEventListener("submit", async (event) => {
   event.preventDefault();
   formSubmitErrorMsg.textContent = "";
+  formSubmitErrorMsg.classList.remove("correct");
+  // Récupération des entrées du form
   const fichier = modale2Form.photo.files[0];
   const titre = modale2Form.titre.value;
   const categorie = modale2Form.categorie.value;
+  // Vérification des conditions sur les entrées
   if (fichier === undefined) {
     formSubmitErrorMsg.textContent = "Veuillez ajouter une photo";
     return;
@@ -203,6 +206,42 @@ modale2Form.addEventListener("submit", (event) => {
   if (categorie === "") {
     formSubmitErrorMsg.textContent = "Veuillez choisir une catégorie";
     return;
+  }
+  // Création d'un formData avec les entrées
+  const formData = new FormData();
+  formData.append("image", fichier);
+  formData.append("title", titre.trim());
+  formData.append("category", categorie);
+  // Envoie d'une requête à l'api avec le formData
+  try {
+    const tokenActuel = sessionStorage.getItem("token");
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${tokenActuel}` },
+      body: formData,
+    });
+    if (response.ok) {
+      const resultat = await response.json();
+      // Ajout du nouveau projet dans works
+      resultat.categoryId = Number(resultat.categoryId);
+      works.push(resultat);
+      // Réaffichage des projets et reset du formulaire
+      displayProjets(works);
+      displayGalleryModale(works);
+      resetFormPhoto();
+      formSubmitErrorMsg.classList.add("correct");
+      formSubmitErrorMsg.textContent = `Ajouté : ${titre.trim()}`;
+    } else if (response.status === 401) {
+      formSubmitErrorMsg.textContent =
+        "Session expirée, veuillez vous reconnecter";
+    } else {
+      formSubmitErrorMsg.textContent =
+        "Une erreur est survenue, veuillez réessayer plus tard";
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du projet :", error);
+    formSubmitErrorMsg.textContent =
+      "Une erreur est survenue, veuillez réessayer plus tard";
   }
 });
 

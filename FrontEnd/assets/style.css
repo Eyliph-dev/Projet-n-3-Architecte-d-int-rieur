@@ -82,7 +82,7 @@ h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: #1D6154;
 }
 nav ul {
 	display: flex;
@@ -462,6 +462,14 @@ footer nav ul {
 
 #modale2 .form-footer button {
 	background-color: #A7A7A7;
+}
+
+#modale2-form:valid .form-footer button {
+	background-color: #1D6154;
+}
+
+#modale2 .correct {
+	color: green;
 }
 
 /* Screen Reader Only */
