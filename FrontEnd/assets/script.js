@@ -14,17 +14,17 @@ const token = sessionStorage.getItem("token");
 const log = document.querySelector(".login");
 
 // Suppression du token lors du click sur "logout"
-log.addEventListener ("click", () => {
+log.addEventListener("click", () => {
   sessionStorage.removeItem("token");
 });
 
 editPage(token);
 
 // Fonction permettant de changer la page en mode édition
-function editPage (token) {
+function editPage(token) {
   const edit = document.body;
 
-  if (token !== null){
+  if (token !== null) {
     edit.classList.add("edit");
     log.textContent = "logout";
     log.setAttribute("href", "index.html");
@@ -34,51 +34,6 @@ function editPage (token) {
 }
 
 // -------------- Modale ------------------
-
-// Récupération de la liste des catégories pour le select dans la modale
-const categorieModale = document.querySelector("#categorie");
-
-for (let i = 0; i < categories.length; i++) {
-  const optionCategorie = document.createElement("option");
-  optionCategorie.value = categories[i].id;
-  optionCategorie.textContent = categories[i].name;
-  categorieModale.appendChild(optionCategorie);
-}
-
-// Affichage des projets dans la modale
-function displayGalleryModale(works) {
-  const galleryModale = document.querySelector(".modale-gallery");
-  // Vidage de la galerie modale avant d'ajouter les projets
-  galleryModale.innerHTML = "";
-
-  for (let i = 0; i < works.length; i++) {
-    // Création des éléments pour chaque projet
-    const figure = document.createElement("figure");
-
-    const imgElement = document.createElement("img");
-    imgElement.src = works[i].imageUrl;
-    imgElement.alt = works[i].title;
-
-    // Création du bouton de suppression pour chaque projet
-    const supElement = document.createElement("button");
-    supElement.setAttribute("aria-label", `Supprimer le projet ${works[i].title}`);
-    const imgSupElement = document.createElement("i");
-    imgSupElement.classList.add("fa-solid", "fa-trash-can");
-    supElement.appendChild(imgSupElement);
-    // Récupération de l'id du projet à supprimer lors du click sur le bouton de suppression
-    supElement.addEventListener("click", () => {
-      const id = works[i].id;
-      supProjet(id);
-    });
-
-    // Ajout des éléments dans le html
-    galleryModale.appendChild(figure);
-    figure.appendChild(imgElement);
-    figure.appendChild(supElement);
-  }
-}
-
-displayGalleryModale(works);
 
 // Récupération des éléments de la modale dans le html
 const modale = document.getElementById("modale");
@@ -93,15 +48,15 @@ document.querySelector(".modifier").addEventListener("click", () => {
 });
 
 // Fermeture modale si click sur croix
-document.querySelectorAll(".closeModale").forEach(button => {
+document.querySelectorAll(".closeModale").forEach((button) => {
   button.addEventListener("click", () => {
     modale.close();
   });
 });
 
 // Fermeture modale si clic en dehors
-modale.addEventListener("click", event => {
-  if(event.target === modale){
+modale.addEventListener("click", (event) => {
+  if (event.target === modale) {
     modale.close();
   }
 });
@@ -120,11 +75,58 @@ modaleReturn.addEventListener("click", () => {
   element2.classList.add("hidden");
 });
 
+// Event lors de la fermeture de la modale
+modale.addEventListener("close", () => {
+  resetChampPhoto();
+});
+
+// ------------- Modale 1: Vue Gallerie ----------------
+
+// Affichage des projets dans la modale
+function displayGalleryModale(works) {
+  const galleryModale = document.querySelector(".modale-gallery");
+  // Vidage de la galerie modale avant d'ajouter les projets
+  galleryModale.innerHTML = "";
+
+  for (let i = 0; i < works.length; i++) {
+    // Création des éléments pour chaque projet
+    const figure = document.createElement("figure");
+
+    const imgElement = document.createElement("img");
+    imgElement.src = works[i].imageUrl;
+    imgElement.alt = works[i].title;
+
+    // Création du bouton de suppression pour chaque projet
+    const supElement = document.createElement("button");
+    supElement.setAttribute(
+      "aria-label",
+      `Supprimer le projet ${works[i].title}`,
+    );
+    const imgSupElement = document.createElement("i");
+    imgSupElement.classList.add("fa-solid", "fa-trash-can");
+    supElement.appendChild(imgSupElement);
+    // Récupération de l'id du projet à supprimer lors du click sur le bouton de suppression
+    supElement.addEventListener("click", () => {
+      const id = works[i].id;
+      supProjet(id);
+    });
+
+    // Ajout des éléments dans le html
+    galleryModale.appendChild(figure);
+    figure.appendChild(imgElement);
+    figure.appendChild(supElement);
+  }
+}
+
+displayGalleryModale(works);
+
 // Fonction permettant de supprimer un projet de l'api
 async function supProjet(id) {
   const supErrorMsg = document.getElementById("sup-error");
   supErrorMsg.textContent = "";
-  const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce projet ?");
+  const confirmation = confirm(
+    "Êtes-vous sûr de vouloir supprimer ce projet ?",
+  );
   if (!confirmation) {
     return;
   }
@@ -132,22 +134,63 @@ async function supProjet(id) {
     const tokenActuel = sessionStorage.getItem("token");
     const response = await fetch(`http://localhost:5678/api/works/${id}`, {
       method: "DELETE",
-      headers: { "Authorization": `Bearer ${tokenActuel}` },
+      headers: { Authorization: `Bearer ${tokenActuel}` },
     });
     if (response.ok) {
       // Mettre à jour la liste des projets après la suppression
-     works = works.filter(work => work.id !== id);
-     displayProjets(works);
-     displayGalleryModale(works);
+      works = works.filter((work) => work.id !== id);
+      displayProjets(works);
+      displayGalleryModale(works);
     } else if (response.status === 401) {
       supErrorMsg.textContent = "Session expirée, veuillez vous reconnecter";
     } else {
-      supErrorMsg.textContent = "Une erreur est survenue lors de la suppression du projet";
+      supErrorMsg.textContent =
+        "Une erreur est survenue lors de la suppression du projet";
     }
   } catch (error) {
-  console.error("Erreur lors de la suppression du projet :", error);
-  supErrorMsg.textContent = "Une erreur est survenue, veuillez réessayer plus tard";
+    console.error("Erreur lors de la suppression du projet :", error);
+    supErrorMsg.textContent =
+      "Une erreur est survenue, veuillez réessayer plus tard";
   }
+}
+
+// ---------------- Modale 2: Vue ajout photo ------------------
+
+const fileInput = document.getElementById("photo");
+const champPhoto = document.querySelector(".ajout-photo-form");
+const image = document.querySelector("#image-form");
+
+fileInput.addEventListener("change", () => {
+  if (fileInput.files[0] === undefined) {
+    return;
+  }
+  const file = fileInput.files[0];
+  const imageURL = URL.createObjectURL(file);
+  image.src = imageURL;
+  for (const enfant of champPhoto.children) {
+    enfant.classList.add("hidden");
+  }
+  image.classList.remove("hidden");
+});
+
+// Fonction qui réinitialise le champ photo du form de la modale2
+function resetChampPhoto() {
+  for (const enfant of champPhoto.children) {
+    enfant.classList.remove("hidden");
+  }
+  image.classList.add("hidden");
+  image.src = "";
+  fileInput.value = "";
+}
+
+// Récupération de la liste des catégories pour le select dans la modale
+const categorieModale = document.querySelector("#categorie");
+
+for (let i = 0; i < categories.length; i++) {
+  const optionCategorie = document.createElement("option");
+  optionCategorie.value = categories[i].id;
+  optionCategorie.textContent = categories[i].name;
+  categorieModale.appendChild(optionCategorie);
 }
 
 // --------------------- Affichage des projets et filtres ------------------
@@ -216,4 +259,3 @@ createFiltre("Tous", 0);
 for (let i = 0; i < categories.length; i++) {
   createFiltre(categories[i].name, categories[i].id);
 }
-
