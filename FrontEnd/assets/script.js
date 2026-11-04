@@ -77,7 +77,7 @@ modaleReturn.addEventListener("click", () => {
 
 // Event lors de la fermeture de la modale
 modale.addEventListener("close", () => {
-  resetChampPhoto();
+  resetFormPhoto();
 });
 
 // ------------- Modale 1: Vue Gallerie ----------------
@@ -158,8 +158,12 @@ async function supProjet(id) {
 
 const fileInput = document.getElementById("photo");
 const champPhoto = document.querySelector(".ajout-photo-form");
-const image = document.querySelector("#image-form");
+const image = document.getElementById("image-form");
+const modale2Form = document.getElementById("modale2-form");
+const formSubmitErrorMsg = document.getElementById("form-submit-error");
+const PHOTO_TAILLE_MAX = 4 * 1024 * 1024;
 
+// Affichage de la preview de l'image dans le formulaire
 fileInput.addEventListener("change", () => {
   if (fileInput.files[0] === undefined) {
     return;
@@ -173,14 +177,44 @@ fileInput.addEventListener("change", () => {
   image.classList.remove("hidden");
 });
 
-// Fonction qui réinitialise le champ photo du form de la modale2
-function resetChampPhoto() {
+modale2Form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  formSubmitErrorMsg.textContent = "";
+  const fichier = modale2Form.photo.files[0];
+  const titre = modale2Form.titre.value;
+  const categorie = modale2Form.categorie.value;
+  if (fichier === undefined) {
+    formSubmitErrorMsg.textContent = "Veuillez ajouter une photo";
+    return;
+  }
+  if (fichier.type !== "image/jpeg" && fichier.type !== "image/png") {
+    formSubmitErrorMsg.textContent =
+      "Le fichier est au mauvais format (.jpg ou .png)";
+    return;
+  }
+  if (fichier.size > PHOTO_TAILLE_MAX) {
+    formSubmitErrorMsg.textContent = "Fichier trop lourd ( > 4 Mo )";
+    return;
+  }
+  if (titre.trim() === "") {
+    formSubmitErrorMsg.textContent = "Veuillez ajouter un titre";
+    return;
+  }
+  if (categorie === "") {
+    formSubmitErrorMsg.textContent = "Veuillez choisir une catégorie";
+    return;
+  }
+});
+
+// Fonction qui réinitialise le formulaire de la modale
+function resetFormPhoto() {
   for (const enfant of champPhoto.children) {
     enfant.classList.remove("hidden");
   }
   image.classList.add("hidden");
   image.src = "";
-  fileInput.value = "";
+  formSubmitErrorMsg.textContent = "";
+  modale2Form.reset();
 }
 
 // Récupération de la liste des catégories pour le select dans la modale

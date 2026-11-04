@@ -234,7 +234,7 @@ footer nav ul {
 	font-weight: 700;
 }
 
-#log-error, #sup-error {
+#log-error, #sup-error, #form-submit-error {
 	padding-top: 1em;
 	color: #d91c1c;
 }
@@ -397,7 +397,7 @@ footer nav ul {
 	margin: auto;
 }
 
-#sup-error {
+#sup-error, #form-submit-error {
 	text-align: center;
 }
 
