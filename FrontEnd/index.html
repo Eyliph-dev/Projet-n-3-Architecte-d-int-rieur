@@ -9,15 +9,20 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/6cbec72094.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<div class="bandeau">
+	<i class="fa-regular fa-pen-to-square"></i>
+	<p>Mode édition</p>
+</div>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
+			<li><a href="#portfolio">projets</a></li>
+			<li><a href="#contact">contact</a></li>
+			<li><a href="login.html" class="login">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -35,7 +40,14 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="portfolio-title">
+			<h2>Mes Projets</h2>
+			<button class="modifier">
+				<i class="fa-regular fa-pen-to-square"></i>
+				<span>modifier</span>
+			</button>
+		</div>
+		<div class="filtres"></div>
 		<div class="gallery">
 			<figure>
 				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
@@ -83,7 +95,7 @@
 			</figure>
 		</div>
 	</section>
-	<section id="contact">
+	<section id="contact" class="form">
 		<h2>Contact</h2>
 		<p>Vous avez un projet ? Discutons-en !</p>
 		<form action="#" method="post">
@@ -105,5 +117,54 @@
 		</ul>
 	</nav>
 </footer>
+<dialog id="modale">
+	<div class="modale-container">
+		<div id="modale1">
+			<div class="top-modale1">
+				<button class="closeModale" aria-label="Fermer la modale">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+			</div>
+			<h2>Galerie photo</h2>
+			<div class="modale-gallery"></div>
+			<div class="form-footer">
+				<button id="ajout-photo">Ajouter une photo</button>
+				<p id="sup-error" role="alert"></p>
+			</div>
+		</div>
+		<div id="modale2" class="hidden form">
+			<div class="top-modale2">
+				<button id="retour-arriere" aria-label="Retour en arrière">
+					<i class="fa-solid fa-arrow-left"></i>
+				</button>
+				<button class="closeModale" aria-label="Fermer la modale">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+			</div>
+			<h2>Ajout photo</h2>
+			<form id="modale2-form" action="#" method="post" novalidate>
+				<div class="ajout-photo-form">
+					<i class="fa-regular fa-image"></i>
+					<input type="file" id="photo" name="photo" accept="image/png, image/jpeg" class="sr-only" required>
+					<label for="photo">+ Ajouter photo</label>
+					<span>jpg, png : 4mo max</span>
+					<img src="" alt="Aperçu de la photo sélectionnée" class="hidden" id="image-form">
+				</div>
+				<label for="titre">Titre</label>
+				<input type="text" id="titre" name="titre" required>
+				<label for="categorie">Catégorie</label>
+				<select id="categorie" name="categorie" required>
+					<option value=""></option>
+				</select>
+				<div class="form-footer">
+					<button type="submit">Valider</button>
+				</div>
+				<p id="form-submit-error" role="alert"></p>
+			</form>
+		</div>
+	</div>
+</dialog>
+<script type="module" src="assets/script.js"></script>
 </body>
 </html>
+
