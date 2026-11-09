@@ -1,6 +1,6 @@
 // Récupération des projets depuis l'api
 const responseWorks = await fetch("http://localhost:5678/api/works");
-let works = await responseWorks.json();
+const works = await responseWorks.json();
 
 // Récupération des catégories depuis l'api
 const responseCategories = await fetch("http://localhost:5678/api/categories");
@@ -137,7 +137,11 @@ async function supProjet(id, title) {
     });
     if (response.ok) {
       // Mettre à jour la liste des projets après la suppression
-      works = works.filter((work) => work.id !== id);
+      const indexProjet = works.findIndex((work) => work.id === id);
+      if (indexProjet === -1) {
+        return;
+      }
+      works.splice(indexProjet, 1);
       displayProjets(works);
       displayGalleryModale(works);
     } else if (response.status === 401) {
