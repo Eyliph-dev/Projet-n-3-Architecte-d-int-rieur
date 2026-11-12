@@ -18,19 +18,25 @@ submitForm.addEventListener("submit", (event) => {
 async function login(chargeUtile) {
   const errorMsg = document.getElementById("log-error");
   errorMsg.textContent = "";
-  const response = await fetch("http://localhost:5678/api/users/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: chargeUtile,
-  });
+  try {
+    const response = await fetch("http://localhost:5678/api/users/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: chargeUtile,
+    });
 
-  if (response.status === 200) {
-    const userValid = await response.json();
-    sessionStorage.setItem("token", userValid.token);
-    window.location.href = "index.html";
-  } else if (response.status === 401 || response.status === 404) {
-    errorMsg.textContent = "Email ou mot de passe incorrect";
-  } else {
+    if (response.status === 200) {
+      const userValid = await response.json();
+      sessionStorage.setItem("token", userValid.token);
+      window.location.href = "index.html";
+    } else if (response.status === 401 || response.status === 404) {
+      errorMsg.textContent = "Email ou mot de passe incorrect";
+    } else {
+      errorMsg.textContent =
+        "Une erreur est survenue, veuillez réessayer plus tard";
+    }
+  } catch (error) {
+    console.error("Erreur lors de la connexion:", error);
     errorMsg.textContent =
       "Une erreur est survenue, veuillez réessayer plus tard";
   }
